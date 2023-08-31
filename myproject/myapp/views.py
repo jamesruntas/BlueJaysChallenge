@@ -1,24 +1,35 @@
 from django.shortcuts import render
-
+import xml.etree.ElementTree as ET
 import requests
+import statsapi
+from datetime import datetime
 
 import feedparser
 
 def index(request):
+    # Fetching news entries
     news_entries = fetch_mlb_news()
+    # Fetching MLB standings
+    standings_data = fetch_mlb_standing()
+    print(standings_data)
+
     context = {
-        'news_entries': news_entries
+        'news_entries': news_entries,
+        'standings_data': standings_data
     }
     return render(request, 'index.html', context)
 
 
+def fetch_mlb_standing():
+    current_date = datetime.now().strftime('%m/%d/%Y')
+    standings_data = statsapi.standings_data(leagueId="103,104", division="all", include_wildcard=True, date=current_date)
+    return standings_data
 
 
 
-import xml.etree.ElementTree as ET
-import requests
 
 def fetch_mlb_news(all = False):
+    
     MLB_RSS_URL = "https://www.mlb.com/feeds/news/rss.xml"
     response = requests.get(MLB_RSS_URL)
     root = ET.fromstring(response.content)
@@ -36,7 +47,6 @@ def fetch_mlb_news(all = False):
 
         if image_element is not None and 'href' in image_element.attrib:
             image = image_element.attrib['href']
-            print("Image URL:", image)
             entries_with_images.append({
                 'title': title,
                 'link': link,
