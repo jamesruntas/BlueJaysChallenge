@@ -29,4 +29,9 @@ Starting and stopping a Django web application is straightforward. Here's how yo
 
 ### Stopping the Web App:
 
-1. `Ctrl+C` in terminal 
+1. `Ctrl+C` in terminal
+
+
+ISSUES:
+Easy Fix low Priority(Sept 1) Players with accent characters in thier name arent seen by API call. ![image](https://github.com/jamesruntas/BlueJaysChallenge/assets/71133703/83011afc-7294-47f2-b659-56ae4f82d544)
+
