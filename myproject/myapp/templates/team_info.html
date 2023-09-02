@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Team Info</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+        <h3>Roster:</h3>
+        <ul>
+        {% for player in roster %}
+            <li>
+                <strong>#{{ player.number }} {{ player.name }}</strong> - {{ player.position }}<br>
+                <small>{{ player.stats }}</small>
+            </li>
+        {% endfor %}
+        </ul>
+        
+        <h3>Game Highlights:</h3>
+        {% if game_highlights %}
+            <ul>
+            {% for highlight in game_highlights %}
+                <li><a href="{{ highlight.link }}">{{ highlight.description }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No highlights available.</p>
+        {% endif %}
+  </body>
+</html>

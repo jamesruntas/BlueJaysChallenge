@@ -22,4 +22,5 @@ from myapp import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('all-articles/', views.all_articles, name='all_articles'),
+    path('team/<int:team_id>/', views.team_info, name='team_info'),
 ]

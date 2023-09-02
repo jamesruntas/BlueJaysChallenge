@@ -1,3 +1,9 @@
 from django.db import models
 
-# Create your models here.
+# models.py
+
+class GameData(models.Model):
+    team_id = models.IntegerField()
+    date = models.DateField()
+    game_data = models.JSONField()
+    fetched_at = models.DateTimeField(auto_now=True)
