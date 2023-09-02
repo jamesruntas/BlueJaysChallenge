@@ -4,12 +4,12 @@ Starting and stopping a Django web application is straightforward. Here's how yo
 
 ### Starting the Web App (Development Stage [Dockerized version to be implemented later]):
 
-1. Ensure you're in your Django project directory.
+1. Ensure in directory BlueJaysChallennge/BlueJaysChallenge
    
 2. Activate V Env
    - For Windows (CMD):
      ```bash
-     myenv\Scripts\Activate.bat
+     myenv\Scripts\Activate
      ```
    - For Windows (PowerShell):
      ```bash
@@ -20,7 +20,9 @@ Starting and stopping a Django web application is straightforward. Here's how yo
      source myenv/bin/activate
      ```
 
-3. Start the Django development server:
+3. cd myproject 
+
+4. Start the Django development server:
    ```bash
    python manage.py runserver
    ```
