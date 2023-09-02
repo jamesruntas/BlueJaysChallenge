@@ -1,32 +1,154 @@
+{% load static %}
+{% load math %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Team Info</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-        <h3>Roster:</h3>
-        <ul>
-        {% for player in roster %}
-            <li>
-                <strong>#{{ player.number }} {{ player.name }}</strong> - {{ player.position }}<br>
-                <small>{{ player.stats }}</small>
-            </li>
-        {% endfor %}
-        </ul>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>MLB Wizard</title>
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
+    <link rel="stylesheet" href="node_modules/flag-icon-css/css/flag-icon.min.css" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/MLBWizard3.png' %}" />
+</head>
+
+<body>
+    <div class="container-scroller" style="background-color: #DBD6D8;">
+        <!-- Navbar Section -->
+        <nav class="navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row" style="background-image: url('{% static 'images/Banner3Resized.png' %}'); ">
+            <div class="bg-white text-center navbar-brand-wrapper">
+                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{% static 'images/MLBWizard3.png' %}" alt=""></a>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center">
+                <button class="navbar-toggler navbar-toggler d-none d-lg-block navbar-dark align-self-center mr-3" type="button" data-toggle="minimize">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <form class="form-inline mt-2 mt-md-0 d-none d-lg-block">
+                    <input class="form-control mr-sm-2 search" type="text" placeholder="Search">
+                </form>
+                <ul class="navbar-nav ml-lg-auto d-flex align-items-center flex-row">
+                    <li class="nav-item">
+                        <a class="nav-link profile-pic" href="#"><img class="rounded-circle" src="{% static 'images/MLBWizard3.png' %}" alt=""></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fa fa-th"></i></a>
+                    </li>
+                </ul>
+                <button class="navbar-toggler navbar-dark navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+        <!-- Sidebar Section -->
+        <div class="container-fluid">
+            <div class="row row-offcanvas row-offcanvas-right">
+                <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
+                    <div class="user-info">
+                        <img src="{% static 'images/MLBWizard3.png' %}" alt="">
+                        <p class="name">Developed by</p>
+                        <p class="name">James Runtas</p>
+                    </div>
+                    <ul class="nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'index' %}">
+                                <img src="images/icons/1.png" alt="">
+                                <span class="menu-title">Dashboard</span>
+                            </a>
+                        </li>            
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'all_articles' %}">
+                                <img src="images/icons/1.png" alt="">
+                                <span class="menu-title">News</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- Main Content Section -->
+            <div class="content-wrapper" style="background-color: transparent; background-image: url('{% static 'images/bg.png' %}'); ">
+                <h3 class="page-heading mb-4" style="color: #F7D5C5; font-size: 36px;">{{ team_name }}</h3>
+                <div class="row mt-5">
+                    <div class="col-12">
+                      <div class="card" style="border: 2px solid black; border-radius: 10px; background-color: rgba(255, 255, 255, 0.5);">
+                            <div class="card-header">
+                                <h4>Recent Game Highlights</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    {% for highlight in game_highlights %}
+                                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                        <div class="card">
+                                            {% if entry.image_href %}
+                                            <img src="{{ highlight.image_href }}" alt="News image" class="card-img-top">
+                                            {% endif %}
+                                            <div class="card-body">
+                                                <h5 class="card-title">
+                                                    <a href="{{ highlight.link }}">{{ highlight.description }}</a>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    {% if roster %}
+                    <div class="row mb-4">
         
-        <h3>Game Highlights:</h3>
-        {% if game_highlights %}
-            <ul>
-            {% for highlight in game_highlights %}
-                <li><a href="{{ highlight.link }}">{{ highlight.description }}</a></li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p>No highlights available.</p>
-        {% endif %}
-  </body>
+                        <div class="col-md-12">
+                            <div class="card" style="border: 2px solid black; border-radius: 10px; background-color: rgba(255, 255, 255, 0.5);">
+                                <div class="card-body">
+                                    <table class="table no-border">
+                                        <thead>
+                                            <tr>
+                                                <th>Headshot</th>
+                                                <th>Name</th>
+                                                <th>Number</th>
+                                                <th>Position</th>
+                                                <th>Stats</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for player in roster %}
+                                            <td class="align-middle">
+                                                <!-- Displaying the logo and abbreviation -->
+                                                <div style="display: flex; align-items: center;"> 
+                                                    <img src="{{ player.id|url_player_id_headshot }}" alt="{{ player.name }} Logo" height="50" width="50">
+                                                </div>
+                                            </td>
+                                            <td class="align-middle">{{ player.name }}</td>
+                                            <td class="align-middle">{{ player.number }}</td>
+                                            <td class="align-middle">{{player.position}}</td>
+                                            <td class="align-middle">{{ player.stats }}</td>
+                                        </tr>
+                                          {% endfor %}
+                                          
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p>roster data not available.</p>
+                    {% endif %}
+            </div>
+        </div>
+
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+        <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="node_modules/chart.js/dist/Chart.min.js"></script>
+        <script src="node_modules/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5NXz9eVnyJOA81wimI8WYE08kW_JMe8g&callback=initMap" async defer></script>
+        <script src="js/off-canvas.js"></script>
+        <script src="js/hoverable-collapse.js"></script>
+        <script src="js/misc.js"></script>
+        <script src="js/chart.js"></script>
+        <script src="js/maps.js"></script>
+    </body>
 </html>

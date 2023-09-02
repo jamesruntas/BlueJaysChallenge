@@ -13,9 +13,6 @@ import feedparser
 
 def index(request):
     # Fetching news entries
-    print("starting json population")
-    populate_all_teams()
-    print("done json population")
     news_entries = fetch_mlb_news()
     # Fetching MLB standings
     standings_data = fetch_mlb_standing()
@@ -251,13 +248,4 @@ def update_team_roster(team_id):
         json.dump(all_teams_data, file, indent=4)
 
     return players
-
-
-
-def populate_all_teams():
-    all_team_ids = [108,109,110,111,112,113,114,115,116,117,118,119,120,121,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,158 ]
-
-    for team_id in all_team_ids:
-        update_team_roster(team_id)
-
 
