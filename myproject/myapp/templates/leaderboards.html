@@ -1,0 +1,98 @@
+{% load static %}
+{% load math %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>MLB Wizard</title>
+    <link rel="stylesheet" href="{% static 'node_modules/font-awesome/css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'node_modules/flag-icon-css/css/flag-icon.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/MLBWizard3.png' %}" />
+    <style>
+        .sort-header.asc:after {
+            content: "↑";
+        }
+        .sort-header.desc:after {
+            content: "↓";
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-scroller" style="background-color: #DBD6D8;">
+        <!-- Navbar Section -->
+        <nav class="navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row" style="background-image: url('{% static 'images/Banner3Resized.png' %}'); ">
+            <div class="bg-white text-center navbar-brand-wrapper">
+                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{% static 'images/MLBWizard3.png' %}" alt=""></a>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center">
+                <button class="navbar-toggler navbar-toggler d-none d-lg-block navbar-dark align-self-center mr-3" type="button" data-toggle="minimize">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <form class="form-inline mt-2 mt-md-0 d-none d-lg-block">
+                    <input class="form-control mr-sm-2 search" type="text" placeholder="Search">
+                </form>
+                <ul class="navbar-nav ml-lg-auto d-flex align-items-center flex-row">
+                    <li class="nav-item">
+                        <a class="nav-link profile-pic" href="#"><img class="rounded-circle" src="{% static 'images/MLBWizard3.png' %}" alt=""></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fa fa-th"></i></a>
+                    </li>
+                </ul>
+                <button class="navbar-toggler navbar-dark navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+        <!-- Sidebar Section -->
+        <div class="container-fluid">
+            <div class="row row-offcanvas row-offcanvas-right">
+                <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
+                    <div class="user-info">
+                        <img src="{% static 'images/MLBWizard3.png' %}" alt="">
+                        <p class="name">Developed by</p>
+                        <p class="name">James Runtas</p>
+                    </div>
+                    <ul class="nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'index' %}">
+                                <span class="menu-title">Dashboard</span>
+                            </a>
+                        </li>            
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'all_articles' %}">
+                                <span class="menu-title">News</span>
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'leaderboards' %}">
+                                <span class="menu-title">Leaderboards</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- Main Content Section -->
+            <div class="content-wrapper" style="background-color: transparent; background-image: url('{% static 'images/bg.png' %}'); ">
+            </div>
+        </div>
+
+
+        <script src="{% static 'node_modules/jquery/dist/jquery.min.js' %}"></script>
+        <script src="{% static 'node_modules/popper.js/dist/umd/popper.min.js' %}"></script>
+        <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'node_modules/chart.js/dist/Chart.min.js' %}"></script>
+        <script src="{% static 'node_modules/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js' %}"></script>>
+        <script src="{% static 'js/off-canvas.js' %}"></script>
+        <script src="{% static 'js/hoverable-collapse.js' %}"></script>
+        <script src="{% static 'js/misc.js' %}"></script>
+        <script src="{% static 'js/chart.js' %}"></script>
+        <script src="{% static 'js/maps.js' %}"></script>
+        
+    </body>
+</html>

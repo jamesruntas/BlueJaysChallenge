@@ -120,7 +120,7 @@ def fetch_mlb_news(all = False):
     return entries_with_images if all else entries_with_images[:4]
 
 def all_articles(request):
-    all_entries = fetch_mlb_news(all=True)  # See modification in next step
+    all_entries = fetch_mlb_news(all=True)  
     return render(request, 'all_articles.html', {'entries': all_entries})
 
 def division_standings(request):
@@ -153,7 +153,6 @@ def division_standings(request):
     context = {'divisions': divisions, 'news_entries': news_entries[:5]}  # Limit to 5 recent news
     
     return render(request, 'mlb_stats/division_standings.html', context)
-
 
 def team_info(request, team_id):
 
@@ -193,9 +192,6 @@ def team_info(request, team_id):
         context['game_highlights'] = None
 
     return render(request, 'team_info.html', context)
-
-
-
 
 def update_team_roster(team_id):
 
@@ -268,7 +264,6 @@ def update_team_roster(team_id):
 
     return players
 
-
 def get_team_roster(team_id):
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     TEAM_INFO_PATH = os.path.join(BASE_DIR, 'static', 'team_info.json')
@@ -279,7 +274,6 @@ def get_team_roster(team_id):
 
     return all_teams_data[str(team_id)]
 
-
 def process_stat_string(stat_string):
     lines = stat_string.split('\n')
     stat_dict = {}
@@ -289,3 +283,6 @@ def process_stat_string(stat_string):
             key, value = parts[0].strip(), parts[1].strip()
             stat_dict[key] = value
     return stat_dict
+
+def leaderboards(request):
+    return render(request, 'leaderboards.html')
