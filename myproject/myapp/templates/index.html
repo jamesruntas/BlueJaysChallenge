@@ -9,9 +9,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>MLB Wizard</title>
-  <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
-  <link rel="stylesheet" href="node_modules/flag-icon-css/css/flag-icon.min.css" />
+  <link rel="stylesheet" href="{% static 'node_modules/font-awesome/css/font-awesome.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'node_modules/flag-icon-css/css/flag-icon.min.css' %}" />
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link rel="shortcut icon" href="{% static 'images/MLBWizard3.png' %}" />
 </head>
@@ -52,7 +52,6 @@
         <!-- partial:partials/_sidebar.html -->
         <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
           <div class="user-info">
-            <img src="images/face.jpg" alt="">
             <img src="{% static 'images/MLBWizard3.png' %}" alt="">
             <p class="name">Developed by</p>
             <p class="name">James Runtas</p>
@@ -60,13 +59,11 @@
           <ul class="nav">
             <li class="nav-item active">
               <a class="nav-link" href="{% url 'index' %}">
-                  <img src="images/icons/1.png" alt="">
                   <span class="menu-title">Dashboard</span>
               </a>
           </li>          
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'all_articles' %}">
-                <img src="images/icons/1.png" alt="">
                 <span class="menu-title">News</span>
             </a>
           </li> 
@@ -100,7 +97,7 @@
                                       <!-- Displaying the logo and abbreviation -->
                                       <div style="display: flex; align-items: center;"> 
                                           <img src="{{ team.logo_url }}" alt="{{ team.name }} Logo" height="50" width="50">
-                                          <div>{{ team.name|slice:":3" }}</div>
+                                          <div>{{ team.abbreviation }}</div>
                                       </div>
                                   </td>
                                   <td class="align-middle">{{ team.w }}W-{{ team.l }}L</td>
@@ -171,17 +168,17 @@
 
   </div>
 
-  <script src="node_modules/jquery/dist/jquery.min.js"></script>
-  <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
-  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="node_modules/chart.js/dist/Chart.min.js"></script>
-  <script src="node_modules/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5NXz9eVnyJOA81wimI8WYE08kW_JMe8g&callback=initMap" async defer></script>
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/misc.js"></script>
-  <script src="js/chart.js"></script>
-  <script src="js/maps.js"></script>
+  <script src="{% static 'node_modules/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static 'node_modules/popper.js/dist/umd/popper.min.js' %}"></script>
+  <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'node_modules/chart.js/dist/Chart.min.js' %}"></script>
+  <script src="{% static 'node_modules/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js' %}"></script>
+  <script src="{% static 'js/off-canvas.js' %}"></script>
+  <script src="{% static 'js/hoverable-collapse.js' %}"></script>
+  <script src="{% static 'js/misc.js' %}"></script>
+  <script src="{% static 'js/chart.js' %}"></script>
+  <script src="{% static 'js/maps.js' %}"></script>
+  
 </body>
 
 </html>

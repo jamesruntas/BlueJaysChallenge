@@ -15,3 +15,10 @@ def url_player_id_headshot(id):
     headShotUrl = template.format(id)
     return headShotUrl 
 
+
+
+
+@register.filter(name='get_item')
+def get_item(dictionary, key):
+    return dictionary.get(key)
+

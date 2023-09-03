@@ -20,13 +20,19 @@ def index(request):
     
     current_directory = os.path.dirname(os.path.abspath(__file__))
     team_logos_path = os.path.join(current_directory, 'static', 'teamLogos.json')
+    team_ids_path = os.path.join(current_directory, 'static', 'team_ids.json')
 
     with open(team_logos_path, 'r') as file:
         TEAM_LOGO_URLS = json.load(file)
 
+    with open(team_ids_path, 'r') as file:
+        TEAM_IDS_DATA = json.load(file)
+
     for division in standings_data.values():
         for team in division['teams']:
             team['logo_url'] = TEAM_LOGO_URLS.get(team['name'], '')
+            team['abbreviation'] = TEAM_IDS_DATA.get(str(team['team_id']), {}).get('abbreviation', '')
+
 
 
     context = {
@@ -82,16 +88,6 @@ def get_last_10_games(team_id):
 
     return f"{wins}-{losses}"
 
-
-
-
-
-
-
-
-
-
-
 def fetch_mlb_news(all = False):
     
     MLB_RSS_URL = "https://www.mlb.com/feeds/news/rss.xml"
@@ -127,8 +123,6 @@ def all_articles(request):
     all_entries = fetch_mlb_news(all=True)  # See modification in next step
     return render(request, 'all_articles.html', {'entries': all_entries})
 
-
-
 def division_standings(request):
     MLB_TEAMS_URL = "https://statsapi.mlb.com/api/v1/teams?sportId=1"
     MLB_STANDINGS_URL = "https://statsapi.mlb.com/api/v1/standings?leagueId=103,104"
@@ -161,12 +155,30 @@ def division_standings(request):
     return render(request, 'mlb_stats/division_standings.html', context)
 
 
-
-
-
 def team_info(request, team_id):
+
     context = {}
-    context['roster'] = update_team_roster(team_id)
+    context['roster'] = get_team_roster(team_id)
+    context['hitting_fields'] = ["gamesPlayed", "groundOuts", "airOuts", "runs", "doubles", "triples", 
+    "homeRuns", "strikeOuts", "baseOnBalls", "intentionalWalks", "hits",
+    "hitByPitch", "avg", "atBats", "obp", "slg", "ops", "caughtStealing", 
+    "stolenBases", "stolenBasePercentage", "groundIntoDoublePlay", "numberOfPitches",
+    "plateAppearances", "totalBases", "rbi", "leftOnBase", "sacBunts", "sacFlies", 
+    "babip", "groundOutsToAirouts", "catchersInterference", "atBatsPerHomeRun"]
+    context['pitching_fields'] = ["gamesPlayed", "gamesStarted", "groundOuts", "airOuts", "runs", "doubles", 
+    "triples", "homeRuns", "strikeOuts", "baseOnBalls", "intentionalWalks", 
+    "hits", "hitByPitch", "avg", "atBats", "obp", "slg", "ops", "caughtStealing", 
+    "stolenBases", "stolenBasePercentage", "groundIntoDoublePlay", "numberOfPitches", 
+    "era", "inningsPitched", "wins", "losses", "saves", "saveOpportunities", "holds", 
+    "blownSaves", "earnedRuns", "whip", "battersFaced", "outs", "gamesPitched", 
+    "completeGames", "shutouts", "strikes", "strikePercentage", "hitBatsmen", "balks", 
+    "wildPitches", "pickoffs", "totalBases", "groundOutsToAirouts", "winPercentage", 
+    "pitchesPerInning", "gamesFinished", "strikeoutWalkRatio", "strikeoutsPer9Inn", 
+    "walksPer9Inn", "hitsPer9Inn", "runsScoredPer9", "homeRunsPer9", "inheritedRunners", 
+    "inheritedRunnersScored", "catchersInterference", "sacBunts", "sacFlies"]
+    context['fielding_fields'] = ["gamesPlayed", "gamesStarted", "assists", "putOuts", "errors", "chances", 
+    "fielding", "rangeFactorPerGame", "rangeFactorPer9Inn", "innings", "games", 
+    "doublePlays", "triplePlays", "throwingErrors"]
     
 
     # Fetch the last completed game
@@ -186,10 +198,9 @@ def team_info(request, team_id):
 
 
 def update_team_roster(team_id):
-    # Get the directory of the current script
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-    # Build the path to the JSON file
+
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     TEAM_INFO_PATH = os.path.join(BASE_DIR, 'static', 'team_info.json')
     
     # Load current data from team_info.json
@@ -197,10 +208,10 @@ def update_team_roster(team_id):
         all_teams_data = json.load(file)
 
     # If the team_id already exists, we skip further processing and return the existing data
-    if str(team_id) in all_teams_data:
-        return all_teams_data[str(team_id)]
+    #if str(team_id) in all_teams_data:
+    #    return all_teams_data[str(team_id)]
 
-    # Fetch the roster data if team_id is not present
+    # Fetch the roster data
     roster_data = statsapi.roster(team_id)
     lines = roster_data.split('\n')
 
@@ -226,10 +237,18 @@ def update_team_roster(team_id):
         player_id = player_lookup[0]['id']
 
         try:
-            stats_text = statsapi.player_stats(player_id, 'hitting', 'career')
+            # Fetch stats for the player for the current season
+            hitting_string = statsapi.player_stats(player_id, 'hitting', 'season')
+            pitching_string = statsapi.player_stats(player_id, 'pitching', 'season')
+            fielding_string = statsapi.player_stats(player_id, 'fielding', 'season')
+
+            hitting_stats = process_stat_string(hitting_string)
+            pitching_stats = process_stat_string(pitching_string)
+            fielding_stats = process_stat_string(fielding_string)
+
         except TypeError:
             print(f"Error retrieving stats for {name}.")
-            stats_text = "Stats unavailable"
+            hitting_stats, pitching_stats, fielding_stats = None, None, None
 
         players.append({
             "id": player_id,
@@ -237,15 +256,36 @@ def update_team_roster(team_id):
             "position": position,
             "number": number,
             "team_id": team_id,
-            "stats": stats_text
+            "hitting": hitting_stats,
+            "pitching": pitching_stats,
+            "fielding": fielding_stats
         })
     
-    # Update the all_teams_data dictionary
     all_teams_data[str(team_id)] = players
 
-    # Save back to team_info.json
     with open(TEAM_INFO_PATH, "w") as file:
         json.dump(all_teams_data, file, indent=4)
 
     return players
 
+
+def get_team_roster(team_id):
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    TEAM_INFO_PATH = os.path.join(BASE_DIR, 'static', 'team_info.json')
+    
+    # Load current data from team_info.json
+    with open(TEAM_INFO_PATH, "r") as file:
+        all_teams_data = json.load(file)
+
+    return all_teams_data[str(team_id)]
+
+
+def process_stat_string(stat_string):
+    lines = stat_string.split('\n')
+    stat_dict = {}
+    for line in lines:
+        parts = line.split(':')
+        if len(parts) == 2:
+            key, value = parts[0].strip(), parts[1].strip()
+            stat_dict[key] = value
+    return stat_dict

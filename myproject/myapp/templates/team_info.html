@@ -7,11 +7,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>MLB Wizard</title>
-    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
-    <link rel="stylesheet" href="node_modules/flag-icon-css/css/flag-icon.min.css" />
+    <link rel="stylesheet" href="{% static 'node_modules/font-awesome/css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'node_modules/flag-icon-css/css/flag-icon.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="shortcut icon" href="{% static 'images/MLBWizard3.png' %}" />
+    <style>
+        .sort-header.asc:after {
+            content: "↑";
+        }
+        .sort-header.desc:after {
+            content: "↓";
+        }
+    </style>
 </head>
 
 <body>
@@ -53,13 +61,11 @@
                     <ul class="nav">
                         <li class="nav-item active">
                             <a class="nav-link" href="{% url 'index' %}">
-                                <img src="images/icons/1.png" alt="">
                                 <span class="menu-title">Dashboard</span>
                             </a>
                         </li>            
                         <li class="nav-item active">
                             <a class="nav-link" href="{% url 'all_articles' %}">
-                                <img src="images/icons/1.png" alt="">
                                 <span class="menu-title">News</span>
                             </a>
                         </li>
@@ -68,40 +74,18 @@
             </div>
             <!-- Main Content Section -->
             <div class="content-wrapper" style="background-color: transparent; background-image: url('{% static 'images/bg.png' %}'); ">
-                <h3 class="page-heading mb-4" style="color: #F7D5C5; font-size: 36px;">{{ team_name }}</h3>
-                <div class="row mt-5">
-                    <div class="col-12">
-                      <div class="card" style="border: 2px solid black; border-radius: 10px; background-color: rgba(255, 255, 255, 0.5);">
-                            <div class="card-header">
-                                <h4>Recent Game Highlights</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    {% for highlight in game_highlights %}
-                                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                                        <div class="card">
-                                            {% if entry.image_href %}
-                                            <img src="{{ highlight.image_href }}" alt="News image" class="card-img-top">
-                                            {% endif %}
-                                            <div class="card-body">
-                                                <h5 class="card-title">
-                                                    <a href="{{ highlight.link }}">{{ highlight.description }}</a>
-                                                </h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                     {% if roster %}
                     <div class="row mb-4">
         
                         <div class="col-md-12">
-                            <div class="card" style="border: 2px solid black; border-radius: 10px; background-color: rgba(255, 255, 255, 0.5);">
-                                <div class="card-body">
+                            <div class="card" style="border: 2px solid black; border-radius: 10px;">
+                                <div>
+                                    <button id="showHitters">Hitters</button>
+                                    <button id="showPitchers">Pitchers</button>
+                                    <button id="showFielders">Fielders</button>
+                                </div>
+                                                              
+                                <div class="card-body" style="max-width: 100%; max-height: 500px; overflow-x: auto; overflow-y: auto; position: relative;">
                                     <table class="table no-border">
                                         <thead>
                                             <tr>
@@ -109,7 +93,22 @@
                                                 <th>Name</th>
                                                 <th>Number</th>
                                                 <th>Position</th>
-                                                <th>Stats</th>
+                                                <!-- Hitting Headers -->
+                                                {% for field in hitting_fields %}
+                                                    <th class="hitting-stats sort-header" data-stat-type="hitting" data-field="{{ field }}">{{ field|capfirst }}</th>
+                                                {% endfor %}
+
+                                                <!-- Pitching Headers -->
+                                                {% for field in pitching_fields %}
+                                                    <th class="pitching-stats sort-header" data-stat-type="pitching" data-field="{{ field }}">{{ field|capfirst }}</th>
+                                                {% endfor %}
+
+                                                <!-- Fielding Headers -->
+                                                {% for field in fielding_fields %}
+                                                    <th class="fielding-stats sort-header" data-stat-type="fielding" data-field="{{ field }}">{{ field|capfirst }}</th>
+                                                {% endfor %}
+
+                                                
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -123,7 +122,32 @@
                                             <td class="align-middle">{{ player.name }}</td>
                                             <td class="align-middle">{{ player.number }}</td>
                                             <td class="align-middle">{{player.position}}</td>
-                                            <td class="align-middle">{{ player.stats }}</td>
+                                            <!-- Hitting Stats -->
+                                            {% for field in hitting_fields %}
+                                                {% if player.hitting %}
+                                                    <td class="hitting-stats align-middle">{{ player.hitting|get_item:field }}</td>
+                                                {% else %}
+                                                    <td class="hitting-stats align-middle">-</td> 
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            <!-- Pitching Stats -->
+                                            {% for field in pitching_fields %}
+                                                {% if player.pitching %}
+                                                    <td class="pitching-stats align-middle">{{ player.pitching|get_item:field }}</td>
+                                                {% else %}
+                                                    <td class="pitching-stats align-middle">-</td>  
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            <!-- Fielding Stats -->
+                                            {% for field in fielding_fields %}
+                                                {% if player.fielding %}
+                                                    <td class="fielding-stats align-middle">{{ player.fielding|get_item:field }}</td>
+                                                {% else %}
+                                                    <td class="fielding-stats align-middle">-</td>
+                                                {% endif %}
+                                            {% endfor %}
                                         </tr>
                                           {% endfor %}
                                           
@@ -136,19 +160,121 @@
                     {% else %}
                     <p>roster data not available.</p>
                     {% endif %}
+                    <h3 class="page-heading mb-4" style="color: #F7D5C5; font-size: 36px;">{{ team_name }}</h3>
+                    <div class="row mt-5">
+                        <div class="col-12">
+                          <div class="card" style="border: 2px solid black; border-radius: 10px; background-color: rgba(255, 255, 255, 0.5);">
+                                <div class="card-header">
+                                    <h4>Recent Game Highlights</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        {% for highlight in game_highlights %}
+                                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                            <div class="card">
+                                                {% if entry.image_href %}
+                                                <img src="{{ highlight.image_href }}" alt="News image" class="card-img-top">
+                                                {% endif %}
+                                                <div class="card-body">
+                                                    <h5 class="card-title">
+                                                        <a href="{{ highlight.link }}">{{ highlight.description }}</a>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
+            
         </div>
 
-        <script src="node_modules/jquery/dist/jquery.min.js"></script>
-        <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
-        <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="node_modules/chart.js/dist/Chart.min.js"></script>
-        <script src="node_modules/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5NXz9eVnyJOA81wimI8WYE08kW_JMe8g&callback=initMap" async defer></script>
-        <script src="js/off-canvas.js"></script>
-        <script src="js/hoverable-collapse.js"></script>
-        <script src="js/misc.js"></script>
-        <script src="js/chart.js"></script>
-        <script src="js/maps.js"></script>
+
+        <script src="{% static 'node_modules/jquery/dist/jquery.min.js' %}"></script>
+        <script>
+            $(document).ready(function() {
+                    // This will ensure only hitting stats are shown by default.
+                $('.hitting-stats').show();
+                $('.pitching-stats').hide();
+                $('.fielding-stats').hide();
+                $('#showHitters').css({'background-color': 'blue', 'color': 'white'});
+
+                $('#showHitters').click(function() {
+                    $('.hitting-stats').show();
+                    $('.pitching-stats').hide();
+                    $('.fielding-stats').hide();
+                    // Set this button's colors and reset others
+                    $(this).css({'background-color': 'blue', 'color': 'white'});
+                    $('#showPitchers, #showFielders').css({'background-color': '', 'color': ''});
+                });
+                
+                $('#showPitchers').click(function() {
+                    $('.hitting-stats').hide();
+                    $('.pitching-stats').show();
+                    $('.fielding-stats').hide();
+                    // Set this button's colors and reset others
+                    $(this).css({'background-color': 'blue', 'color': 'white'});
+                    $('#showHitters, #showFielders').css({'background-color': '', 'color': ''});
+                });
+                
+                $('#showFielders').click(function() {
+                    $('.hitting-stats').hide();
+                    $('.pitching-stats').hide();
+                    $('.fielding-stats').show();
+                    // Set this button's colors and reset others
+                    $(this).css({'background-color': 'blue', 'color': 'white'});
+                    $('#showHitters, #showPitchers').css({'background-color': '', 'color': ''});
+                });
+            });            
+        </script>
+        <script>
+            $(document).ready(function() {
+            let currentSortedHeader = null;
+            let currentSortOrder = null; // "asc" for ascending, "desc" for descending
+            
+            $('.sort-header').on('click', function() {
+                let header = $(this);
+                let table = header.closest('table');
+                let tbody = table.find('tbody');
+                let rows = tbody.find('tr').toArray();
+                let statType = header.data('stat-type');
+                let field = header.data('field');
+                let isAscending = header.hasClass('asc');
+        
+                // Determine the index of the clicked header
+                let columnIndex = header.index();
+        
+                rows.sort(function(a, b) {
+                    let cellA = $(a).find('td').eq(columnIndex).text();
+                    let cellB = $(b).find('td').eq(columnIndex).text();
+        
+                    if (!isNaN(cellA) && !isNaN(cellB)) {
+                        return isAscending ? +cellB - +cellA : +cellA - +cellB;
+                    }
+        
+                    return isAscending ? cellB.localeCompare(cellA) : cellA.localeCompare(cellB);
+                });
+        
+                tbody.append(rows);
+        
+                // Toggle the classes
+                table.find('th').not(header).removeClass('asc desc');
+                header.toggleClass('asc', !isAscending).toggleClass('desc', isAscending);
+            });
+            }); 
+        </script>
+        <script src="{% static 'node_modules/popper.js/dist/umd/popper.min.js' %}"></script>
+        <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'node_modules/chart.js/dist/Chart.min.js' %}"></script>
+        <script src="{% static 'node_modules/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js' %}"></script>>
+        <script src="{% static 'js/off-canvas.js' %}"></script>
+        <script src="{% static 'js/hoverable-collapse.js' %}"></script>
+        <script src="{% static 'js/misc.js' %}"></script>
+        <script src="{% static 'js/chart.js' %}"></script>
+        <script src="{% static 'js/maps.js' %}"></script>
+        
     </body>
 </html>
