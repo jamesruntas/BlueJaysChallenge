@@ -1,0 +1,24 @@
+MLB Wizard TODO
+
+Home Page
+	Search Bar 
+		- Directs to player page
+	New Sidebar
+		- New colour/bg
+		- Teams
+	
+
+Leaderboards
+	
+Player pages
+	
+Team Pages
+		Recent Game Highlights fix 
+		Fix names with accents not loading into database
+		New roster Hitters/P/F Buttons
+		For Sorting: 
+			default games played already sorted 
+			Bold 
+			Cell highlighted
+			
+		
