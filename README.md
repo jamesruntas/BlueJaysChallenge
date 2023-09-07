@@ -2,7 +2,7 @@
 
 MLB Stats and News hub Django Application using mlb-stats-api
 
-DEMO (Sept 6) Version 0.9.0
+DEMO (Sept 4) Version 0.9.0
 
 https://github.com/jamesruntas/BlueJaysChallenge/assets/71133703/9c19cc2a-3df9-4bc7-91dd-ac7bacf81d7e
 
