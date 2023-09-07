@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import xml.etree.ElementTree as ET
+from django.http import JsonResponse
 from .models import GameData
 import requests
 import statsapi
@@ -334,3 +335,16 @@ def player(request, player_id):
 
 def fetch_player_info(player_id):
     return statsapi.player_stat_data(player_id, group="[hitting,pitching,fielding]", type="career", sportId=1)
+
+def search_player(request):
+    search_term = request.GET.get('term', '')
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    TEAM_INFO_PATH = os.path.join(BASE_DIR, 'static', 'team_info.json')
+    
+    # Load current data from team_info.json
+    with open(TEAM_INFO_PATH, "r") as file:
+        data = json.load(file)
+        # Search logic here. (Case-insensitive and matching first and/or last names)
+        matches = [player for player in data['players'] if search_term.lower() in (player['first_name'].lower() + " " + player['last_name'].lower())][:10]
+    
+    return JsonResponse(matches, safe=False)

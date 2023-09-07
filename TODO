@@ -5,15 +5,13 @@ Home Page
 		- Directs to player page
 	New Sidebar
 		- New colour/bg
-		- Teams
 	
 
-Leaderboards 
+Leaderboards UI
 	
-Player pages
+Player pages UI
 	
-Team Pages
-		Recent Game Highlights fix 
+Team Pages UI
 		Fix names with accents not loading into database
 			
 		
