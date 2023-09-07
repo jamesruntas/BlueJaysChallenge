@@ -113,7 +113,7 @@
                     <div class="row mb-4">
         
                         <div class="col-md-12">
-                            <div class="card" style="border: 2px solid black; border-radius: 10px;">
+                            <div class="card" style="border: 2px solid black; border-radius: 10px;max-width: 95%; max-height: 90%;">
                                 <div>
                                     <button id="showHitters" style="background-color: #4CAF50; border: none; color: white; padding: 10px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 12px; transition-duration: 0.4s;">Hitters</button>
                                     <button id="showPitchers" style="background-color: #4CAF50; border: none; color: white; padding: 10px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 12px; transition-duration: 0.4s;">Pitchers</button>
@@ -121,7 +121,7 @@
 
                                 </div>
                                                               
-                                <div class="card-body" style="max-width: 100%; max-height: 500px; overflow-x: auto; overflow-y: auto; position: relative;">
+                                <div class="card-body" style="max-width: 95%; max-height: 800px; overflow-x: auto; overflow-y: auto; position: relative;">
                                     <p>Click on column header to sort</p>
 
                                     <table class="table no-border">
@@ -157,7 +157,10 @@
                                                     <img src="{{ player.id|url_player_id_headshot }}" alt="{{ player.name }} Logo" height="50" width="50">
                                                 </div>
                                             </td>
-                                            <td class="align-middle">{{ player.name }}</td>
+                                            <td class="align-middle">
+                                                <a href="#" onclick="window.location='{% url 'player' player.id %}'">{{ player.name }}</a>
+                                            </td>
+                                            
                                             <td class="align-middle">{{ player.number }}</td>
                                             <td class="align-middle">{{player.position}}</td>
                                             <!-- Hitting Stats -->
@@ -198,34 +201,7 @@
                     {% else %}
                     <p>roster data not available.</p>
                     {% endif %}
-                    <h3 class="page-heading mb-4" style="color: #F7D5C5; font-size: 36px;">{{ team_name }}</h3>
-                    <div class="row mt-5">
-                        <div class="col-12">
-                          <div class="card" style="border: 2px solid black; border-radius: 10px; background-color: rgba(255, 255, 255, 0.75);">
-                                <div class="card-header">
-                                    <h4>Recent Game Highlights</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        {% for highlight in game_highlights %}
-                                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                                            <div class="card">
-                                                {% if entry.image_href %}
-                                                <img src="{{ highlight.image_href }}" alt="News image" class="card-img-top">
-                                                {% endif %}
-                                                <div class="card-body">
-                                                    <h5 class="card-title">
-                                                        <a href="{{ highlight.link }}">{{ highlight.description }}</a>
-                                                    </h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
             </div>
             
         </div>

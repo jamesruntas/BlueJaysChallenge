@@ -43,36 +43,6 @@ def index(request):
   
     return render(request, 'index.html', context)
 
-
-def sidebar(request):
-    # Fetching MLB standings
-    standings_data = fetch_mlb_standing()
-
-    
-    current_directory = os.path.dirname(os.path.abspath(__file__))
-    team_logos_path = os.path.join(current_directory, 'static', 'teamLogos.json')
-    team_ids_path = os.path.join(current_directory, 'static', 'team_ids.json')
-
-    with open(team_logos_path, 'r') as file:
-        TEAM_LOGO_URLS = json.load(file)
-
-    with open(team_ids_path, 'r') as file:
-        TEAM_IDS_DATA = json.load(file)
-
-    for division in standings_data.values():
-        for team in division['teams']:
-            team['logo_url'] = TEAM_LOGO_URLS.get(team['name'], '')
-            team['abbreviation'] = TEAM_IDS_DATA.get(str(team['team_id']), {}).get('abbreviation', '')
-
-
-
-    context = {
-        'standings_data': standings_data,
-    }
-
-  
-    return render(request, 'standings.html', context)
-
 def fetch_mlb_standing():
     current_date = datetime.now().strftime('%m/%d/%Y')
     standings_data = statsapi.standings_data(leagueId="103,104", division="all", include_wildcard=True, date=current_date)
@@ -313,8 +283,6 @@ def process_stat_string(stat_string):
             stat_dict[key] = value
     return stat_dict
 
-import statsapi
-
 def leaderboards(request):
     # Fetch HR Leaders
     hr_leaders = statsapi.league_leader_data(
@@ -359,6 +327,10 @@ def leaderboards(request):
     return render(request, 'leaderboards.html', context)
 
 
+def player(request, player_id):
+    player_info = fetch_player_info(player_id)
+    return render(request, 'player.html', {'player_info': player_info})
 
 
-    
+def fetch_player_info(player_id):
+    return statsapi.player_stat_data(player_id, group="[hitting,pitching,fielding]", type="career", sportId=1)

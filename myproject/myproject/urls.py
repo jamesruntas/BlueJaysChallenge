@@ -24,4 +24,5 @@ urlpatterns = [
     path('all-articles/', views.all_articles, name='all_articles'),
     path('team/<int:team_id>/', views.team_info, name='team_info'),
     path('leaderboards/', views.leaderboards, name='leaderboards'),
+    path('player/<int:player_id>/', views.player, name='player'),
 ]

@@ -19,6 +19,31 @@
         .sort-header.desc:after {
             content: "↓";
         }
+        .player-info {
+            background-color: rgba(255, 255, 255, 0.75); 
+            padding: 20px;
+        }
+        .stats-container {
+            display: grid; 
+            grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+            gap: 20px; /* Spacing between grid items */
+        }
+        .stats-container > div {
+            padding: 10px;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.75); /* 75% transparent background */
+            border: 1px solid #ccc;
+            border-radius: 10px;  /* Rounded corners for the divs */
+        }
+        .stats-container table {
+            width: 100%; 
+            max-width: 100%;
+            border-collapse: collapse; /* Ensures borders are combined */
+        }
+        .stats-container table, .stats-container th, .stats-container td {
+            border: 1px solid #ccc;
+            border-radius: 5px; /* Rounded corners for tables, header cells, and data cells */
+        }
     </style>
 </head>
 
@@ -79,6 +104,146 @@
             </div>
             <!-- Main Content Section -->
             <div class="content-wrapper" style="background-color: transparent; background-image: url('{% static 'images/bg.png' %}'); ">
+                <div style="background-color: rgba(255, 255, 255, 0.75); padding: 20px; margin-bottom: 20px; border-radius: 10px">
+                    <h1>{{ player_info.first_name }} {{ player_info.last_name }}</h1>
+                    <p>Debut: {{ player_info.mlb_debut }}</p>
+                    <p>Position: {{ player_info.position }}</p>
+                    
+                    <div class="stats-container">
+                        {% for stat in player_info.stats %}
+                            <div>
+                                <h2>{{ stat.group|title }}</h2>
+                
+                                <!-- Display position for fielding stats -->
+                                {% if stat.group == "fielding" %}
+                                    <h3>{{ stat.stats.position.name }}</h3>
+                                {% endif %}
+                
+                                <table border="1">
+                                    {% if stat.group == "hitting" %}
+                                        <tr>
+                                            <th>G</th>
+                                            <th>AB</th>
+                                            <th>R</th>
+                                            <th>H</th>
+                                            <th>TB</th>
+                                            <th>2B</th>
+                                            <th>3B</th>
+                                            <th>HR</th>
+                                            <th>RBI</th>
+                                            <th>BB</th>
+                                            <th>IBB</th>
+                                            <th>SO</th>
+                                            <th>SB</th>
+                                            <th>CS</th>
+                                            <th>AVG</th>
+                                            <th>OBP</th>
+                                            <th>SLG</th>
+                                            <th>OPS</th>
+                                            <th>GO/AO</th>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ stat.stats.gamesPlayed }}</td>
+                                            <td>{{ stat.stats.atBats }}</td>
+                                            <td>{{ stat.stats.runs }}</td>
+                                            <td>{{ stat.stats.hits }}</td>
+                                            <td>{{ stat.stats.totalBases }}</td>
+                                            <td>{{ stat.stats.doubles }}</td>
+                                            <td>{{ stat.stats.triples }}</td>
+                                            <td>{{ stat.stats.homeRuns }}</td>
+                                            <td>{{ stat.stats.rbi }}</td>
+                                            <td>{{ stat.stats.baseOnBalls }}</td>
+                                            <td>{{ stat.stats.intentionalWalks }}</td>
+                                            <td>{{ stat.stats.strikeOuts }}</td>
+                                            <td>{{ stat.stats.stolenBases }}</td>
+                                            <td>{{ stat.stats.caughtStealing }}</td>
+                                            <td>{{ stat.stats.avg }}</td>
+                                            <td>{{ stat.stats.obp }}</td>
+                                            <td>{{ stat.stats.slg }}</td>
+                                            <td>{{ stat.stats.ops }}</td>
+                                            <td>{{ stat.stats.groundOutsToAirouts }}</td>
+                                        </tr>
+                                    {% elif stat.group == "pitching" %}
+                                        <tr>
+                                            <th>ERA</th>
+                                            <th>G</th>
+                                            <th>GS</th>
+                                            <th>CG</th>
+                                            <th>SHO</th>
+                                            <th>HLD</th>
+                                            <th>SV</th>
+                                            <th>SVO</th>
+                                            <th>IP</th>
+                                            <th>H</th>
+                                            <th>R</th>
+                                            <th>ER</th>
+                                            <th>HR</th>
+                                            <th>NP</th>
+                                            <th>HB</th>
+                                            <th>BB</th>
+                                            <th>IBB</th>
+                                            <th>SO</th>
+                                            <th>AVG</th>
+                                            <th>WHIP</th>
+                                            <th>GO/AO</th>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ stat.stats.era }}</td>
+                                            <td>{{ stat.stats.gamesPlayed }}</td>
+                                            <td>{{ stat.stats.gamesStarted }}</td>
+                                            <td>{{ stat.stats.completeGames }}</td>
+                                            <td>{{ stat.stats.shutouts }}</td>
+                                            <td>{{ stat.stats.holds }}</td>
+                                            <td>{{ stat.stats.saves }}</td>
+                                            <td>{{ stat.stats.saveOpportunities }}</td>
+                                            <td>{{ stat.stats.inningsPitched }}</td>
+                                            <td>{{ stat.stats.hits }}</td>
+                                            <td>{{ stat.stats.runs }}</td>
+                                            <td>{{ stat.stats.earnedRuns }}</td>
+                                            <td>{{ stat.stats.homeRuns }}</td>
+                                            <td>{{ stat.stats.numberOfPitches }}</td>
+                                            <td>{{ stat.stats.hitBatsmen }}</td>
+                                            <td>{{ stat.stats.baseOnBalls }}</td>
+                                            <td>{{ stat.stats.intentionalWalks }}</td>
+                                            <td>{{ stat.stats.strikeOuts }}</td>
+                                            <td>{{ stat.stats.avg }}</td>
+                                            <td>{{ stat.stats.whip }}</td>
+                                            <td>{{ stat.stats.groundOutsToAirouts }}</td>
+                                        </tr>
+                                    {% elif stat.group == "fielding" %}
+                                        <tr>
+                                            <th>G</th>
+                                            <th>GS</th>
+                                            <th>INN</th>
+                                            <th>TC</th>
+                                            <th>PO</th>
+                                            <th>A</th>
+                                            <th>E</th>
+                                            <th>DP</th>
+                                            <th>RF</th>
+                                            <th>Fielding %</th>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ stat.stats.gamesPlayed }}</td>
+                                            <td>{{ stat.stats.gamesStarted }}</td>
+                                            <td>{{ stat.stats.innings }}</td>
+                                            <td>{{ stat.stats.chances }}</td>
+                                            <td>{{ stat.stats.putOuts }}</td>
+                                            <td>{{ stat.stats.assists }}</td>
+                                            <td>{{ stat.stats.errors }}</td>
+                                            <td>{{ stat.stats.doublePlays }}</td>
+                                            <td>{{ stat.stats.rangeFactorPerGame }}</td>
+                                            <td>{{ stat.stats.fielding }}</td>
+                                        </tr>
+                                    {% endif %}
+                                </table>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                
+                
             </div>
         </div>
 
