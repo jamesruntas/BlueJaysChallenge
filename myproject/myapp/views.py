@@ -44,6 +44,35 @@ def index(request):
     return render(request, 'index.html', context)
 
 
+def sidebar(request):
+    # Fetching MLB standings
+    standings_data = fetch_mlb_standing()
+
+    
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    team_logos_path = os.path.join(current_directory, 'static', 'teamLogos.json')
+    team_ids_path = os.path.join(current_directory, 'static', 'team_ids.json')
+
+    with open(team_logos_path, 'r') as file:
+        TEAM_LOGO_URLS = json.load(file)
+
+    with open(team_ids_path, 'r') as file:
+        TEAM_IDS_DATA = json.load(file)
+
+    for division in standings_data.values():
+        for team in division['teams']:
+            team['logo_url'] = TEAM_LOGO_URLS.get(team['name'], '')
+            team['abbreviation'] = TEAM_IDS_DATA.get(str(team['team_id']), {}).get('abbreviation', '')
+
+
+
+    context = {
+        'standings_data': standings_data,
+    }
+
+  
+    return render(request, 'standings.html', context)
+
 def fetch_mlb_standing():
     current_date = datetime.now().strftime('%m/%d/%Y')
     standings_data = statsapi.standings_data(leagueId="103,104", division="all", include_wildcard=True, date=current_date)
@@ -284,5 +313,52 @@ def process_stat_string(stat_string):
             stat_dict[key] = value
     return stat_dict
 
+import statsapi
+
 def leaderboards(request):
-    return render(request, 'leaderboards.html')
+    # Fetch HR Leaders
+    hr_leaders = statsapi.league_leader_data(
+        leaderCategories='homeRuns',
+        season=2023, 
+        limit=10,
+        statGroup='hitting'
+    )
+    
+    # Fetch OPS Leaders
+    ops_leaders = statsapi.league_leader_data(
+        leaderCategories='onBasePlusSlugging',
+        season=2023,
+        limit=10,
+        statGroup='hitting'
+    )
+    
+    # Fetch ERA Leaders
+    era_leaders = statsapi.league_leader_data(
+        leaderCategories='earnedRunAverage',
+        season=2023,
+        limit=10,
+        statGroup='pitching'
+    )
+    
+    # Fetch Strikeout Leaders
+    strikeout_leaders = statsapi.league_leader_data(
+        leaderCategories='strikeOuts',
+        season=2023,
+        limit=10,
+        statGroup='pitching'
+    )
+    
+    # Pass the data to the template
+    context = {
+        'hr_leaders': hr_leaders,
+        'ops_leaders': ops_leaders,
+        'era_leaders': era_leaders,
+        'strikeout_leaders': strikeout_leaders,
+    }
+    
+    return render(request, 'leaderboards.html', context)
+
+
+
+
+    

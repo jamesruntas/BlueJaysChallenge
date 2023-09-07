@@ -19,6 +19,10 @@
         .sort-header.desc:after {
             content: "↓";
         }
+        .highlighted {
+            background-color: #f2f2f2;
+        }
+        </style>
     </style>
 </head>
 
@@ -49,34 +53,60 @@
                 </button>
             </div>
         </nav>
-        <!-- Sidebar Section -->
-        <div class="container-fluid">
-            <div class="row row-offcanvas row-offcanvas-right">
-                <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
-                    <div class="user-info">
-                        <img src="{% static 'images/MLBWizard3.png' %}" alt="">
-                        <p class="name">Developed by</p>
-                        <p class="name">James Runtas</p>
+        <!-- partial -->
+<div class="container-fluid">
+  <div class="row row-offcanvas row-offcanvas-right">
+      <!-- partial:partials/_sidebar.html -->
+      <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
+          <div class="user-info">
+              <img src="{% static 'images/MLBWizard3.png' %}" alt="">
+              <p class="name">Developed by</p>
+              <p class="name">James Runtas</p>
+          </div>
+          <ul class="nav">
+              <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'index' %}">
+                      <span class="menu-title">Dashboard</span>
+                  </a>
+              </li>
+              <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'all_articles' %}">
+                      <span class="menu-title">News</span>
+                  </a>
+              </li>
+              <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'leaderboards' %}">
+                      <span class="menu-title">Leaderboards</span>
+                  </a>
+              </li>
+              {% if standings_data %}
+                {% for division_id, division_data in standings_data.items %}
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#{{ division_id }}" aria-expanded="false" aria-controls="{{ division_id }}">
+                      <span class="menu-title">{{ division_data.div_name }}</span> 
+                      <span class="dropdown-arrow">&#8594;</span> 
+                  </a>
+                  
+                    <div class="collapse" id="{{division_id}}">
+                        <ul class="nav flex-column sub-menu">
+                            {% for team in division_data.teams %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" onclick="window.location='{% url 'team_info' team.team_id %}'">
+                                        <div style="display: flex; align-items: center;">
+                                            <img src="{{ team.logo_url }}" alt="{{ team.name }} Logo" height="25" width="25"> <!-- Adjusted the size for the sidebar -->
+                                            <span>{{ team.abbreviation }} Team Stats</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
-                    <ul class="nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{% url 'index' %}">
-                                <span class="menu-title">Dashboard</span>
-                            </a>
-                        </li>            
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{% url 'all_articles' %}">
-                                <span class="menu-title">News</span>
-                            </a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{% url 'leaderboards' %}">
-                                <span class="menu-title">Leaderboards</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+                </li>
+                {% endfor %}
+              {% endif %}
+          </ul>
+      </nav>
+  </div>
             <!-- Main Content Section -->
             <div class="content-wrapper" style="background-color: transparent; background-image: url('{% static 'images/bg.png' %}'); ">
                     {% if roster %}
@@ -85,12 +115,15 @@
                         <div class="col-md-12">
                             <div class="card" style="border: 2px solid black; border-radius: 10px;">
                                 <div>
-                                    <button id="showHitters">Hitters</button>
-                                    <button id="showPitchers">Pitchers</button>
-                                    <button id="showFielders">Fielders</button>
+                                    <button id="showHitters" style="background-color: #4CAF50; border: none; color: white; padding: 10px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 12px; transition-duration: 0.4s;">Hitters</button>
+                                    <button id="showPitchers" style="background-color: #4CAF50; border: none; color: white; padding: 10px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 12px; transition-duration: 0.4s;">Pitchers</button>
+                                    <button id="showFielders" style="background-color: #4CAF50; border: none; color: white; padding: 10px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 12px; transition-duration: 0.4s;">Fielders</button>
+
                                 </div>
                                                               
                                 <div class="card-body" style="max-width: 100%; max-height: 500px; overflow-x: auto; overflow-y: auto; position: relative;">
+                                    <p>Click on column header to sort</p>
+
                                     <table class="table no-border">
                                         <thead>
                                             <tr>
@@ -168,7 +201,7 @@
                     <h3 class="page-heading mb-4" style="color: #F7D5C5; font-size: 36px;">{{ team_name }}</h3>
                     <div class="row mt-5">
                         <div class="col-12">
-                          <div class="card" style="border: 2px solid black; border-radius: 10px; background-color: rgba(255, 255, 255, 0.5);">
+                          <div class="card" style="border: 2px solid black; border-radius: 10px; background-color: rgba(255, 255, 255, 0.75);">
                                 <div class="card-header">
                                     <h4>Recent Game Highlights</h4>
                                 </div>
@@ -199,6 +232,15 @@
 
 
         <script src="{% static 'node_modules/jquery/dist/jquery.min.js' %}"></script>
+        <script src="{% static 'node_modules/popper.js/dist/umd/popper.min.js' %}"></script>
+        <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'node_modules/chart.js/dist/Chart.min.js' %}"></script>
+        <script src="{% static 'node_modules/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js' %}"></script>>
+        <script src="{% static 'js/off-canvas.js' %}"></script>
+        <script src="{% static 'js/hoverable-collapse.js' %}"></script>
+        <script src="{% static 'js/misc.js' %}"></script>
+        <script src="{% static 'js/chart.js' %}"></script>
+        <script src="{% static 'js/maps.js' %}"></script>
         <script>
             $(document).ready(function() {
                     // This will ensure only hitting stats are shown by default.
@@ -233,53 +275,51 @@
                     $(this).css({'background-color': 'blue', 'color': 'white'});
                     $('#showHitters, #showPitchers').css({'background-color': '', 'color': ''});
                 });
+                let currentSortedHeader = null;
+                let currentSortOrder = null; 
+
+                $('.sort-header').on('click', function() {
+                    let header = $(this);
+                    let table = header.closest('table');
+                    let tbody = table.find('tbody');
+                    let rows = tbody.find('tr').toArray();
+                    let statType = header.data('stat-type');
+                    let field = header.data('field');
+                    let isAscending = header.hasClass('asc');
+                    let columnIndex = header.index();
+
+                    if(header.hasClass('asc')) {
+                        header.removeClass('asc').addClass('desc');
+                    } else {
+                        header.removeClass('desc').addClass('asc');
+                    }
+
+                    rows.sort(function(a, b) {
+                        let cellA = $(a).find('td').eq(columnIndex).text();
+                        let cellB = $(b).find('td').eq(columnIndex).text();
+                        if (!isNaN(cellA) && !isNaN(cellB)) {
+                            return isAscending ? +cellB - +cellA : +cellA - +cellB;
+                        }
+                        return isAscending ? cellB.localeCompare(cellA) : cellA.localeCompare(cellB);
+                    });
+
+                    tbody.append(rows);
+
+                    // Remove previous highlights
+                    $('td.highlighted').removeClass('highlighted');
+                    // Highlight the entire sorted column
+                    rows.forEach(function(row) {
+                        $(row).find('td').eq(columnIndex).addClass('highlighted');
+                    });
+
+                    // Toggle the header classes
+                    table.find('th').not(header).removeClass('asc desc');
+                    header.toggleClass('asc', !isAscending).toggleClass('desc', isAscending);
+                });
+                // Sort by 'Games Played' by default for hitters
+                $('.hitting-stats.sort-header[data-field="gamesPlayed"]').click().click();
             });            
         </script>
-        <script>
-            $(document).ready(function() {
-            let currentSortedHeader = null;
-            let currentSortOrder = null; // "asc" for ascending, "desc" for descending
-            
-            $('.sort-header').on('click', function() {
-                let header = $(this);
-                let table = header.closest('table');
-                let tbody = table.find('tbody');
-                let rows = tbody.find('tr').toArray();
-                let statType = header.data('stat-type');
-                let field = header.data('field');
-                let isAscending = header.hasClass('asc');
-        
-                // Determine the index of the clicked header
-                let columnIndex = header.index();
-        
-                rows.sort(function(a, b) {
-                    let cellA = $(a).find('td').eq(columnIndex).text();
-                    let cellB = $(b).find('td').eq(columnIndex).text();
-        
-                    if (!isNaN(cellA) && !isNaN(cellB)) {
-                        return isAscending ? +cellB - +cellA : +cellA - +cellB;
-                    }
-        
-                    return isAscending ? cellB.localeCompare(cellA) : cellA.localeCompare(cellB);
-                });
-        
-                tbody.append(rows);
-        
-                // Toggle the classes
-                table.find('th').not(header).removeClass('asc desc');
-                header.toggleClass('asc', !isAscending).toggleClass('desc', isAscending);
-            });
-            }); 
-        </script>
-        <script src="{% static 'node_modules/popper.js/dist/umd/popper.min.js' %}"></script>
-        <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-        <script src="{% static 'node_modules/chart.js/dist/Chart.min.js' %}"></script>
-        <script src="{% static 'node_modules/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js' %}"></script>>
-        <script src="{% static 'js/off-canvas.js' %}"></script>
-        <script src="{% static 'js/hoverable-collapse.js' %}"></script>
-        <script src="{% static 'js/misc.js' %}"></script>
-        <script src="{% static 'js/chart.js' %}"></script>
-        <script src="{% static 'js/maps.js' %}"></script>
         
     </body>
 </html>

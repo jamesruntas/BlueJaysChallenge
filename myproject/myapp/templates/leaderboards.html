@@ -77,9 +77,124 @@
                     </ul>
                 </nav>
             </div>
-            <!-- Main Content Section -->
-            <div class="content-wrapper" style="background-color: transparent; background-image: url('{% static 'images/bg.png' %}'); ">
+<!-- Main Content Section -->
+<div class="content-wrapper" style="background-color: transparent; background-image: url('{% static 'images/bg.png' %}'); ">
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card" style="border: 2px solid black; border-radius: 10px; background-color: rgba(255, 255, 255, 0.75);">
+                <div class="card-header">
+                    <h4>Season Leaders</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+
+                        <!-- HR Leaders -->
+                        <div class="col-sm-6 col-md-3 mb-4">
+                            <h5>HR Leaders</h5>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Team</th>
+                                        <th>Name</th>
+                                        <th>HRs</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for player in hr_leaders %}
+                                    <tr>
+                                        <td>{{ player.0 }}</td>
+                                        <td>{{ player.1 }}</td>
+                                        <td>{{ player.2 }}</td>
+                                        <td>{{ player.3 }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- OPS Leaders -->
+                        <div class="col-sm-6 col-md-3 mb-4">
+                            <h5>OPS Leaders</h5>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Team</th>
+                                        <th>Name</th>
+                                        <th>OPS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for player in ops_leaders %}
+                                    <tr>
+                                        <td>{{ player.0 }}</td>
+                                        <td>{{ player.1 }}</td>
+                                        <td>{{ player.2 }}</td>
+                                        <td>{{ player.3 }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- ERA Leaders -->
+                        <div class="col-sm-6 col-md-3 mb-4">
+                            <h5>ERA Leaders</h5>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Team</th>
+                                        <th>Name</th>
+                                        <th>ERA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for player in era_leaders %}
+                                    <tr>
+                                        <td>{{ player.0 }}</td>
+                                        <td>{{ player.1 }}</td>
+                                        <td>{{ player.2 }}</td>
+                                        <td>{{ player.3 }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Strikeout Leaders -->
+                        <div class="col-sm-6 col-md-3 mb-4">
+                            <h5>Strikeout Leaders</h5>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Team</th>
+                                        <th>Name</th>
+                                        <th>Strikeouts</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for player in strikeout_leaders %}
+                                    <tr>
+                                        <td>{{ player.0 }}</td>
+                                        <td>{{ player.1 }}</td>
+                                        <td>{{ player.2 }}</td>
+                                        <td>{{ player.3 }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
+</div>
+
         </div>
 
 
