@@ -13,7 +13,6 @@ https://github.com/jamesruntas/BlueJaysChallenge/assets/71133703/9c19cc2a-3df9-4
 
    
 2. (Optional) Activate V Env in repo directory
-   - For Windows (CMD):
      ```bash
      python -m venv venv
      ```
@@ -21,14 +20,13 @@ https://github.com/jamesruntas/BlueJaysChallenge/assets/71133703/9c19cc2a-3df9-4
      ```bash
      .\venv\Scripts\activate
      ```
-   - 
+   
 
 3. Dependencies
    - 
      ```bash
      pip install -r requirements.txt
      ```
-   - 
 4. Start the Django development server:
    ```bash
    python manage.py runserver
