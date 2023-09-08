@@ -105,6 +105,9 @@
             <!-- Main Content Section -->
             <div class="content-wrapper" style="background-color: transparent; background-image: url('{% static 'images/bg.png' %}'); ">
                 <div style="background-color: rgba(255, 255, 255, 0.75); padding: 20px; margin-bottom: 20px; border-radius: 10px">
+                    <div style="display: flex; align-items: center;"> 
+                        <img src="{{ player_info.id|url_player_id_headshot }}" alt="{{ player_info.last_name}} Logo" height="100" width="100">
+                    </div>
                     <h1>{{ player_info.first_name }} {{ player_info.last_name }}</h1>
                     <p>Debut: {{ player_info.mlb_debut }}</p>
                     <p>Position: {{ player_info.position }}</p>

@@ -317,16 +317,22 @@ def leaderboards(request):
         statGroup='pitching'
     )
     
-    # Pass the data to the template
+    # Fetch HR Leaders and get player IDs
+    hr_leaders_with_id = enrich_with_player_ids(hr_leaders)
+
+    # Do the same for OPS, ERA, and Strikeout leaders
+    ops_leaders_with_id = enrich_with_player_ids(ops_leaders)
+    era_leaders_with_id = enrich_with_player_ids(era_leaders)
+    strikeout_leaders_with_id = enrich_with_player_ids(strikeout_leaders)
+
     context = {
-        'hr_leaders': hr_leaders,
-        'ops_leaders': ops_leaders,
-        'era_leaders': era_leaders,
-        'strikeout_leaders': strikeout_leaders,
+        'hr_leaders': hr_leaders_with_id,
+        'ops_leaders': ops_leaders_with_id,
+        'era_leaders': era_leaders_with_id,
+        'strikeout_leaders': strikeout_leaders_with_id,
     }
     
     return render(request, 'leaderboards.html', context)
-
 
 def player(request, player_id):
     player_info = fetch_player_info(player_id)
@@ -334,7 +340,7 @@ def player(request, player_id):
 
 
 def fetch_player_info(player_id):
-    return statsapi.player_stat_data(player_id, group="[hitting,pitching,fielding]", type="career", sportId=1)
+    return statsapi.player_stat_data(player_id, group="[hitting,pitching,fielding]", type="season", sportId=1)
 
 def search_player(request):
     search_term = request.GET.get('term', '')
@@ -348,3 +354,23 @@ def search_player(request):
         matches = [player for player in data['players'] if search_term.lower() in (player['first_name'].lower() + " " + player['last_name'].lower())][:10]
     
     return JsonResponse(matches, safe=False)
+
+def enrich_with_player_ids(leaders):
+    """Add player IDs to the leader data."""
+    enriched_data = []
+    for leader in leaders:
+        player_name = leader[1]
+        # Assuming the last name is sufficient for a unique lookup.
+        # Adjust if needed.
+        last_name = player_name.split()[-1]
+        player_lookup = statsapi.lookup_player(last_name)
+
+        # Check if the lookup returned valid results and extract the player ID
+        if player_lookup:
+            player_id = player_lookup[0]['id']
+        else:
+            player_id = None  # or some default value
+
+        enriched_data.append(list(leader) + [player_id])
+
+    return enriched_data

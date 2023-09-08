@@ -81,7 +81,7 @@
 <div class="content-wrapper" style="background-color: transparent; background-image: url('{% static 'images/bg.png' %}'); ">
     <div class="row mt-5">
         <div class="col-12">
-            <div class="card" style="border: 2px solid black; border-radius: 10px; background-color: rgba(255, 255, 255, 0.75);">
+            <div class="card" style="border: 2px solid black; border-radius: 10px; background-color: rgba(255, 255, 255, 0.9);">
                 <div class="card-header">
                     <h4>Season Leaders</h4>
                 </div>
@@ -95,8 +95,8 @@
                                 <thead>
                                     <tr>
                                         <th>Rank</th>
-                                        <th>Team</th>
                                         <th>Name</th>
+                                        <th>Team</th>
                                         <th>HRs</th>
                                     </tr>
                                 </thead>
@@ -104,7 +104,11 @@
                                 {% for player in hr_leaders %}
                                     <tr>
                                         <td>{{ player.0 }}</td>
-                                        <td>{{ player.1 }}</td>
+                                        {% if player.4 %} 
+                                            <td><a href="{% url 'player' player_id=player.4 %}">{{ player.1 }}</a></td>
+                                        {% else %}
+                                            <td>{{ player.1 }}</td>
+                                        {% endif %}
                                         <td>{{ player.2 }}</td>
                                         <td>{{ player.3 }}</td>
                                     </tr>
@@ -120,8 +124,8 @@
                                 <thead>
                                     <tr>
                                         <th>Rank</th>
-                                        <th>Team</th>
                                         <th>Name</th>
+                                        <th>Team</th>
                                         <th>OPS</th>
                                     </tr>
                                 </thead>
@@ -129,7 +133,11 @@
                                 {% for player in ops_leaders %}
                                     <tr>
                                         <td>{{ player.0 }}</td>
-                                        <td>{{ player.1 }}</td>
+                                        {% if player.4 %} 
+                                            <td><a href="{% url 'player' player_id=player.4 %}">{{ player.1 }}</a></td>
+                                        {% else %}
+                                            <td>{{ player.1 }}</td>
+                                        {% endif %}
                                         <td>{{ player.2 }}</td>
                                         <td>{{ player.3 }}</td>
                                     </tr>
@@ -145,8 +153,8 @@
                                 <thead>
                                     <tr>
                                         <th>Rank</th>
-                                        <th>Team</th>
                                         <th>Name</th>
+                                        <th>Team</th>
                                         <th>ERA</th>
                                     </tr>
                                 </thead>
@@ -154,7 +162,11 @@
                                 {% for player in era_leaders %}
                                     <tr>
                                         <td>{{ player.0 }}</td>
-                                        <td>{{ player.1 }}</td>
+                                        {% if player.4 %} 
+                                            <td><a href="{% url 'player' player_id=player.4 %}">{{ player.1 }}</a></td>
+                                        {% else %}
+                                            <td>{{ player.1 }}</td>
+                                        {% endif %}
                                         <td>{{ player.2 }}</td>
                                         <td>{{ player.3 }}</td>
                                     </tr>
@@ -170,8 +182,8 @@
                                 <thead>
                                     <tr>
                                         <th>Rank</th>
-                                        <th>Team</th>
                                         <th>Name</th>
+                                        <th>Team</th>
                                         <th>Strikeouts</th>
                                     </tr>
                                 </thead>
@@ -179,7 +191,11 @@
                                 {% for player in strikeout_leaders %}
                                     <tr>
                                         <td>{{ player.0 }}</td>
-                                        <td>{{ player.1 }}</td>
+                                        {% if player.4 %} 
+                                            <td><a href="{% url 'player' player_id=player.4 %}">{{ player.1 }}</a></td>
+                                        {% else %}
+                                            <td>{{ player.1 }}</td>
+                                        {% endif %}
                                         <td>{{ player.2 }}</td>
                                         <td>{{ player.3 }}</td>
                                     </tr>
