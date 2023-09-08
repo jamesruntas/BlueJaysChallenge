@@ -28,7 +28,7 @@ https://github.com/jamesruntas/BlueJaysChallenge/assets/71133703/9c19cc2a-3df9-4
      ```
 4. Start the Django development server:
    ```bash
-   python manage.py runserver
+   python myproject/manage.py runserver
    ```
 
    [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
