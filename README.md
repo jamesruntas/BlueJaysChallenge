@@ -16,14 +16,13 @@ https://github.com/jamesruntas/BlueJaysChallenge/assets/71133703/9c19cc2a-3df9-4
      ```bash
      python -m venv venv
      ```
-   - 
+   
      ```bash
      .\venv\Scripts\activate
      ```
    
 
-3. Dependencies
-   - 
+3. Dependencies 
      ```bash
      pip install -r requirements.txt
      ```
