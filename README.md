@@ -7,26 +7,28 @@ DEMO (Sept 4) Version 0.9.0
 https://github.com/jamesruntas/BlueJaysChallenge/assets/71133703/9c19cc2a-3df9-4bc7-91dd-ac7bacf81d7e
 
 
-### Starting the Web App (Development Stage [Dockerized version to be implemented later]):
+### Starting the Web App:
 
-1. Ensure in directory BlueJaysChallennge/BlueJaysChallenge
+1. git clone <https://github.com/jamesruntas/BlueJaysChallenge>
+
    
-2. Activate V Env
+2. (Optional) Activate V Env in repo directory
    - For Windows (CMD):
      ```bash
-     myenv\Scripts\Activate
+     python -m venv venv
      ```
-   - For Windows (PowerShell):
+   - 
      ```bash
-     .\myenv\Scripts\Activate
+     .\venv\Scripts\activate
      ```
-   - For Linux/macOS:
+   - 
+
+3. Dependencies
+   - 
      ```bash
-     source myenv/bin/activate
+     pip install -r requirements.txt
      ```
-
-3. cd myproject 
-
+   - 
 4. Start the Django development server:
    ```bash
    python manage.py runserver
@@ -40,5 +42,5 @@ https://github.com/jamesruntas/BlueJaysChallenge/assets/71133703/9c19cc2a-3df9-4
 
 
 ISSUES:
-Easy Fix low Priority(Sept 1) Players with accent characters in thier name arent seen by API call. ![image](https://github.com/jamesruntas/BlueJaysChallenge/assets/71133703/83011afc-7294-47f2-b659-56ae4f82d544)
+Players with accent characters in thier name arent seen by API call. ![image](https://github.com/jamesruntas/BlueJaysChallenge/assets/71133703/83011afc-7294-47f2-b659-56ae4f82d544)
 
