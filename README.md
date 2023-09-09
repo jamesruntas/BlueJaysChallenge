@@ -2,7 +2,7 @@
 
 MLB Stats and News hub Django Application using mlb-stats-api
 
-Version 0.9.9
+Version 1.0
 
 
 ### Starting the Web App:
