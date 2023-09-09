@@ -34,23 +34,11 @@
                 <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{% static 'images/MLBWizard3.png' %}" alt=""></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center">
-                <button class="navbar-toggler navbar-toggler d-none d-lg-block navbar-dark align-self-center mr-3" type="button" data-toggle="minimize">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <form class="form-inline mt-2 mt-md-0 d-none d-lg-block">
-                    <input class="form-control mr-sm-2 search" type="text" placeholder="Search">
-                </form>
                 <ul class="navbar-nav ml-lg-auto d-flex align-items-center flex-row">
                     <li class="nav-item">
                         <a class="nav-link profile-pic" href="#"><img class="rounded-circle" src="{% static 'images/MLBWizard3.png' %}" alt=""></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-th"></i></a>
-                    </li>
                 </ul>
-                <button class="navbar-toggler navbar-dark navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
             </div>
         </nav>
         <!-- partial -->
@@ -62,6 +50,8 @@
               <img src="{% static 'images/MLBWizard3.png' %}" alt="">
               <p class="name">Developed by</p>
               <p class="name">James Runtas</p>
+              <p class="name"><a href="https://www.linkedin.com/in/jamesruntas/" target="_blank">My LinkedIn</a></p>
+              <p class="name"><a href="https://jamesruntas.ca/" target="_blank">My Portfolio + other links</a></p>
           </div>
           <ul class="nav">
               <li class="nav-item active">
@@ -79,41 +69,16 @@
                       <span class="menu-title">Leaderboards</span>
                   </a>
               </li>
-              {% if standings_data %}
-                {% for division_id, division_data in standings_data.items %}
-                  <li class="nav-item">
-                    <a class="nav-link" data-toggle="collapse" href="#{{ division_id }}" aria-expanded="false" aria-controls="{{ division_id }}">
-                      <span class="menu-title">{{ division_data.div_name }}</span> 
-                      <span class="dropdown-arrow">&#8594;</span> 
-                  </a>
-                  
-                    <div class="collapse" id="{{division_id}}">
-                        <ul class="nav flex-column sub-menu">
-                            {% for team in division_data.teams %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#" onclick="window.location='{% url 'team_info' team.team_id %}'">
-                                        <div style="display: flex; align-items: center;">
-                                            <img src="{{ team.logo_url }}" alt="{{ team.name }} Logo" height="25" width="25"> <!-- Adjusted the size for the sidebar -->
-                                            <span>{{ team.abbreviation }} Team Stats</span>
-                                        </div>
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </li>
-                {% endfor %}
-              {% endif %}
           </ul>
       </nav>
   </div>
             <!-- Main Content Section -->
-            <div class="content-wrapper" style="background-color: transparent; background-image: url('{% static 'images/bg.png' %}'); ">
+            <div class="content-wrapper" style="background-color: #09266A;">
                     {% if roster %}
                     <div class="row mb-4">
         
                         <div class="col-md-12">
-                            <div class="card" style="border: 2px solid black; border-radius: 10px;max-width: 95%; max-height: 90%;">
+                            <div class="card" style="border: 2px solid black; border-radius: 10px;max-width: 95%; max-height: 90%; background-color: rgba(255, 255, 255, 0.75);">
                                 <div>
                                     <button id="showHitters" style="background-color: #4CAF50; border: none; color: white; padding: 10px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 12px; transition-duration: 0.4s;">Hitters</button>
                                     <button id="showPitchers" style="background-color: #4CAF50; border: none; color: white; padding: 10px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 12px; transition-duration: 0.4s;">Pitchers</button>
@@ -123,6 +88,7 @@
                                                               
                                 <div class="card-body" style="max-width: 95%; max-height: 800px; overflow-x: auto; overflow-y: auto; position: relative;">
                                     <p>Click on column header to sort</p>
+                                    <p>Click on Player name to see more</p>
 
                                     <table class="table no-border">
                                         <thead>
