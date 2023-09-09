@@ -7,6 +7,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>MLB Wizard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'node_modules/font-awesome/css/font-awesome.min.css' %}" />
     <link rel="stylesheet" href="{% static 'node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css' %}" />
     <link rel="stylesheet" href="{% static 'node_modules/flag-icon-css/css/flag-icon.min.css' %}" />
@@ -22,7 +25,9 @@
         .highlighted {
             background-color: #f2f2f2;
         }
-        </style>
+        body, button, input, textarea, select {
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
     </style>
 </head>
 
@@ -93,23 +98,23 @@
                                     <table class="table no-border">
                                         <thead>
                                             <tr>
-                                                <th>Headshot</th>
-                                                <th>Name</th>
-                                                <th>Number</th>
-                                                <th>Position</th>
+                                                <th style = "background-color: #3E9FCA; color: #FFFFFF;">Headshot</th>
+                                                <th style = "background-color: #3E9FCA; color: #FFFFFF;">Name</th>
+                                                <th style = "background-color: #3E9FCA; color: #FFFFFF;">Number</th>
+                                                <th style = "background-color: #3E9FCA; color: #FFFFFF;">Position</th>
                                                 <!-- Hitting Headers -->
                                                 {% for field in hitting_fields %}
-                                                    <th class="hitting-stats sort-header" data-stat-type="hitting" data-field="{{ field }}">{{ field|capfirst }}</th>
+                                                    <th style = "background-color: #3E9FCA; color: #FFFFFF;" class="hitting-stats sort-header" data-stat-type="hitting" data-field="{{ field }}">{{ field|capfirst }}</th>
                                                 {% endfor %}
 
                                                 <!-- Pitching Headers -->
                                                 {% for field in pitching_fields %}
-                                                    <th class="pitching-stats sort-header" data-stat-type="pitching" data-field="{{ field }}">{{ field|capfirst }}</th>
+                                                    <th style = "background-color: #3E9FCA; color: #FFFFFF;" class="pitching-stats sort-header" data-stat-type="pitching" data-field="{{ field }}">{{ field|capfirst }}</th>
                                                 {% endfor %}
 
                                                 <!-- Fielding Headers -->
                                                 {% for field in fielding_fields %}
-                                                    <th class="fielding-stats sort-header" data-stat-type="fielding" data-field="{{ field }}">{{ field|capfirst }}</th>
+                                                    <th style = "background-color: #3E9FCA; color: #FFFFFF;" class="fielding-stats sort-header" data-stat-type="fielding" data-field="{{ field }}">{{ field|capfirst }}</th>
                                                 {% endfor %}
 
                                                 

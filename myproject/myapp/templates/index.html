@@ -13,6 +13,9 @@
   <link rel="stylesheet" href="{% static 'node_modules/font-awesome/css/font-awesome.min.css' %}" />
   <link rel="stylesheet" href="{% static 'node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css' %}" />
   <link rel="stylesheet" href="{% static 'node_modules/flag-icon-css/css/flag-icon.min.css' %}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link rel="shortcut icon" href="{% static 'images/MLBWizard3.png' %}" />
   <style> 
@@ -31,7 +34,10 @@
   }
   .search-result:hover {
       background-color: #f5f5f5;
-  } </style>
+  }
+  body, button, input, textarea, select {
+    font-family: 'IBM Plex Sans', sans-serif;
+} </style>
 </head>
 
 <body>
@@ -137,11 +143,11 @@
                           <table class="table no-border">
                               <thead>
                                   <tr>
-                                      <th>{{ division_data.div_name }}</th>
-                                      <th>Record</th>
-                                      <th>Pct</th>
-                                      <th>GB</th>
-                                      <th>L10</th>
+                                      <th style = "background-color: #3E9FCA; color: #FFFFFF;" >{{ division_data.div_name }}</th>
+                                      <th style = "background-color: #3E9FCA; color: #FFFFFF;" >Record</th>
+                                      <th style = "background-color: #3E9FCA; color: #FFFFFF;" >Pct</th>
+                                      <th style = "background-color: #3E9FCA; color: #FFFFFF;" >GB</th>
+                                      <th style = "background-color: #3E9FCA; color: #FFFFFF;" >L10</th>
                                   </tr>
                               </thead>
                               <tbody>

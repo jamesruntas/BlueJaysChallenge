@@ -7811,7 +7811,7 @@ pre {
       max-width: 960px; } }
   @media (min-width: 1200px) {
     .container {
-      max-width: 1140px; } }
+      max-width:1200px; } }
 
 .container-fluid {
   width: 100%;
@@ -14004,5 +14004,11 @@ input {
   color: #1c2c3f; }
 
 
+  body, button, input, textarea, select {
+    font-family: 'IBM Plex Sans', sans-serif;
+}
 
+html, body, button, input, textarea, select, .btn {
+  font-family: 'IBM Plex Sans', sans-serif !important;
+}
 /*# sourceMappingURL=maps/style.css.map */

@@ -7,6 +7,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>MLB Wizard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'node_modules/font-awesome/css/font-awesome.min.css' %}" />
     <link rel="stylesheet" href="{% static 'node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css' %}" />
     <link rel="stylesheet" href="{% static 'node_modules/flag-icon-css/css/flag-icon.min.css' %}" />
@@ -28,7 +31,7 @@
             grid-template-columns: 1fr 1fr; /* Two columns of equal width */
             gap: 20px; /* Spacing between grid items */
         }
-        .stats-container > div {
+        .stats-container  div {
             padding: 10px;
             box-sizing: border-box;
             background: rgba(255, 255, 255, 0.75); /* 75% transparent background */
@@ -43,6 +46,9 @@
         .stats-container table, .stats-container th, .stats-container td {
             border: 1px solid #ccc;
             border-radius: 5px; /* Rounded corners for tables, header cells, and data cells */
+        }
+        body, button, input, textarea, select {
+            font-family: 'IBM Plex Sans', sans-serif;
         }
     </style>
 </head>
@@ -115,25 +121,25 @@
                                 <table border="1">
                                     {% if stat.group == "hitting" %}
                                         <tr>
-                                            <th>G</th>
-                                            <th>AB</th>
-                                            <th>R</th>
-                                            <th>H</th>
-                                            <th>TB</th>
-                                            <th>2B</th>
-                                            <th>3B</th>
-                                            <th>HR</th>
-                                            <th>RBI</th>
-                                            <th>BB</th>
-                                            <th>IBB</th>
-                                            <th>SO</th>
-                                            <th>SB</th>
-                                            <th>CS</th>
-                                            <th>AVG</th>
-                                            <th>OBP</th>
-                                            <th>SLG</th>
-                                            <th>OPS</th>
-                                            <th>GO/AO</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;" >G</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;" >AB</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">R</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">H</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">TB</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">2B</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">3B</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">HR</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">RBI</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">BB</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">IBB</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">SO</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">SB</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">CS</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">AVG</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">OBP</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">SLG</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">OPS</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">GO/AO</th>
                                         </tr>
                                         <tr>
                                             <td>{{ stat.stats.gamesPlayed }}</td>
@@ -158,27 +164,27 @@
                                         </tr>
                                     {% elif stat.group == "pitching" %}
                                         <tr>
-                                            <th>ERA</th>
-                                            <th>G</th>
-                                            <th>GS</th>
-                                            <th>CG</th>
-                                            <th>SHO</th>
-                                            <th>HLD</th>
-                                            <th>SV</th>
-                                            <th>SVO</th>
-                                            <th>IP</th>
-                                            <th>H</th>
-                                            <th>R</th>
-                                            <th>ER</th>
-                                            <th>HR</th>
-                                            <th>NP</th>
-                                            <th>HB</th>
-                                            <th>BB</th>
-                                            <th>IBB</th>
-                                            <th>SO</th>
-                                            <th>AVG</th>
-                                            <th>WHIP</th>
-                                            <th>GO/AO</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">ERA</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">G</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">GS</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">CG</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">SHO</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">HLD</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">SV</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">SVO</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">IP</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">H</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">R</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">ER</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">HR</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">NP</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">HB</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">BB</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">IBB</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">SO</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">AVG</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">WHIP</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">GO/AO</th>
                                         </tr>
                                         <tr>
                                             <td>{{ stat.stats.era }}</td>
@@ -205,16 +211,16 @@
                                         </tr>
                                     {% elif stat.group == "fielding" %}
                                         <tr>
-                                            <th>G</th>
-                                            <th>GS</th>
-                                            <th>INN</th>
-                                            <th>TC</th>
-                                            <th>PO</th>
-                                            <th>A</th>
-                                            <th>E</th>
-                                            <th>DP</th>
-                                            <th>RF</th>
-                                            <th>Fielding %</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">G</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">GS</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">INN</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">TC</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">PO</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">A</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">E</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">DP</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">RF</th>
+                                            <th style = "background-color: #3E9FCA; color: #FFFFFF;">Fielding %</th>
                                         </tr>
                                         <tr>
                                             <td>{{ stat.stats.gamesPlayed }}</td>
