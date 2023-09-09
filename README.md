@@ -13,7 +13,7 @@ https://github.com/jamesruntas/BlueJaysChallenge/assets/71133703/9c19cc2a-3df9-4
 
    
 2. Start Docker Container 
-   - in directory: ..\BlueJaysChallenge\BlueJaysChallenge 
+   - in directory: /BlueJaysChallenge/BlueJaysChallenge 
      ```bash
      docker-compose up
      ```
