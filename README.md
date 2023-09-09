@@ -24,6 +24,11 @@ Version 1.0
    docker-compose down
    ```
 
+https://github.com/jamesruntas/BlueJaysChallenge/assets/71133703/ffbd68e3-0945-4c84-a928-577078ca3a36
+
+
+
+
 ISSUES:
 Players with accent characters in thier name arent seen by API call. ![image](https://github.com/jamesruntas/BlueJaysChallenge/assets/71133703/83011afc-7294-47f2-b659-56ae4f82d544)
 
