@@ -12,31 +12,19 @@ https://github.com/jamesruntas/BlueJaysChallenge/assets/71133703/9c19cc2a-3df9-4
 1. git clone <https://github.com/jamesruntas/BlueJaysChallenge>
 
    
-2. (Optional) Activate V Env in repo directory
+2. Start Docker Container 
+   - in directory: ..\BlueJaysChallenge\BlueJaysChallenge 
      ```bash
-     python -m venv venv
+     docker-compose up
      ```
-   
-     ```bash
-     .\venv\Scripts\activate
-     ```
-   
 
-3. Dependencies 
-     ```bash
-     pip install -r requirements.txt
-     ```
-4. Start the Django development server:
+3. Access the App
+    http://localhost:8000/
+
+4. Stop the app:
    ```bash
-   python myproject/manage.py runserver
+   docker-compose down
    ```
-
-   [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
-
-### Stopping the Web App:
-
-1. `Ctrl+C` in terminal
-
 
 ISSUES:
 Players with accent characters in thier name arent seen by API call. ![image](https://github.com/jamesruntas/BlueJaysChallenge/assets/71133703/83011afc-7294-47f2-b659-56ae4f82d544)
